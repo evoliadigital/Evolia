@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EvolIA — IA Prática para Profissionais</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --black:   #050507;
+  --bg-2:    #0D0D10;
+  --bg-3:    #141418;
+  --line:    #1E1E24;
+  --line-2:  #2A2A32;
+  --orange:  #E87040;
+  --orange-d:#C45C2A;
+  --orange-g:rgba(232,112,64,0.08);
+  --orange-glow:rgba(232,112,64,0.18);
+  --amber:   #E8A317;
+  --amber-g: rgba(232,163,23,0.10);
+  --green:   #3DBA6E;
+  --ink:     #F0F0EF;
+  --ink-2:   #8A8A88;
+  --ink-3:   #55555A;
+  --maxw:    1100px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  background:var(--black);
+  color:var(--ink);
+  font-family:'Inter',system-ui,sans-serif;
+  line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+}
+.wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px}
+h1,h2,h3,.display{font-family:'Archivo',sans-serif;letter-spacing:-0.02em;line-height:1.05}
+.mono{font-family:'JetBrains Mono',monospace}
+.orange{color:var(--orange)}
+.amber{color:var(--amber)}
+.ink2{color:var(--ink-2)}
+
+/* ── NAV ── */
+nav{position:fixed;top:0;left:0;right:0;z-index:50;
+  backdrop-filter:blur(16px);background:rgba(5,5,7,0.80);
+  border-bottom:1px solid transparent;transition:border-color .3s}
+nav.scrolled{border-bottom-color:var(--line)}
+.nav-in{max-width:var(--maxw);margin:0 auto;padding:16px 28px;
+  display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Archivo',sans-serif;font-weight:900;font-size:21px;
+  letter-spacing:0.01em;color:var(--ink)}
+.logo em{font-style:normal;color:var(--orange)}
+.nav-pill{display:inline-flex;align-items:center;gap:8px;padding:10px 22px;
+  border-radius:100px;background:var(--orange);color:#1A0A04;
+  font-family:'Archivo',sans-serif;font-weight:700;font-size:14px;
+  text-decoration:none;transition:opacity .2s}
+.nav-pill:hover{opacity:.88}
+
+/* ── BUTTONS ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  font-family:'Archivo',sans-serif;font-weight:700;font-size:17px;
+  padding:18px 36px;border-radius:10px;border:none;cursor:pointer;
+  text-decoration:none;transition:all .2s}
+.btn-primary{background:var(--orange);color:#1A0A04;
+  box-shadow:0 0 0 rgba(232,112,64,0)}
+.btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 36px rgba(232,112,64,0.30)}
+.btn-ghost{background:transparent;color:var(--ink);
+  border:1px solid var(--line-2)}
+.btn-ghost:hover{border-color:var(--orange);color:var(--orange)}
+.btn-full{width:100%}
+
+/* ── EYEBROW ── */
+.eyebrow{display:inline-flex;align-items:center;gap:8px;
+  font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500;
+  letter-spacing:0.12em;text-transform:uppercase;color:var(--orange)}
+.eyebrow::before{content:"";width:6px;height:6px;border-radius:50%;
+  background:var(--orange);box-shadow:0 0 10px var(--orange)}
+
+/* ── HERO ── */
+.hero{padding:160px 0 100px;position:relative;overflow:hidden}
+
+/* dot-grid background */
+.hero::before{
+  content:"";position:absolute;inset:0;z-index:0;
+  background-image:radial-gradient(circle, rgba(255,255,255,0.06) 1px, transparent 1px);
+  background-size:32px 32px;
+  mask-image:radial-gradient(ellipse 80% 60% at 50% 0%, black 40%, transparent 100%);
+}
+/* orange glow top-right */
+.hero-glow{position:absolute;top:-15%;right:-8%;z-index:0;
+  width:56vw;height:56vw;max-width:720px;max-height:720px;
+  background:radial-gradient(circle, rgba(232,112,64,0.13) 0%, transparent 65%);
+  pointer-events:none}
+/* amber glow bottom-left */
+.hero-glow2{position:absolute;bottom:-10%;left:-5%;z-index:0;
+  width:40vw;height:40vw;max-width:500px;
+  background:radial-gradient(circle, rgba(232,163,23,0.06) 0%, transparent 65%);
+  pointer-events:none}
+.hero-in{position:relative;z-index:1}
+.hero-badge{display:inline-flex;align-items:center;gap:10px;
+  background:var(--bg-2);border:1px solid var(--line-2);border-radius:100px;
+  padding:8px 18px;margin-bottom:28px}
+.hero-badge .dot{width:7px;height:7px;border-radius:50%;background:var(--orange);
+  box-shadow:0 0 8px var(--orange);animation:pulse 2s infinite}
+.hero-badge span{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.08em;color:var(--ink-2)}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+.hero h1{font-size:clamp(44px,7.5vw,92px);font-weight:900;
+  margin:0 0 26px;max-width:13ch;line-height:1.0}
+.hero h1 .dim{color:var(--ink-2);font-weight:700}
+.hero .sub{font-size:clamp(17px,2.2vw,20px);color:var(--ink-2);
+  max-width:52ch;margin-bottom:40px;line-height:1.7}
+.hero-actions{display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-bottom:20px}
+.hero-fine{font-size:14px;color:var(--ink-3)}
+.hero-fine b{color:var(--ink-2);font-weight:500}
+
+/* Terminal block */
+.terminal{margin-top:64px;background:var(--bg-2);border:1px solid var(--line-2);
+  border-radius:14px;overflow:hidden;max-width:640px}
+.term-bar{background:var(--bg-3);padding:12px 18px;display:flex;
+  align-items:center;gap:8px;border-bottom:1px solid var(--line)}
+.term-dot{width:11px;height:11px;border-radius:50%}
+.term-dot:nth-child(1){background:#FF5F57}
+.term-dot:nth-child(2){background:#FEBC2E}
+.term-dot:nth-child(3){background:#28C840}
+.term-title{font-family:'JetBrains Mono';font-size:12px;color:var(--ink-3);
+  margin-left:auto;margin-right:auto;padding-right:36px}
+.term-body{padding:20px 22px;font-family:'JetBrains Mono';font-size:13.5px;line-height:1.8}
+.term-prompt{color:var(--orange)}
+.term-user{color:var(--ink-2)}
+.term-ai{color:var(--green)}
+.term-cursor{display:inline-block;width:9px;height:16px;background:var(--orange);
+  margin-left:2px;vertical-align:middle;animation:blink 1s step-end infinite}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+/* ── STATS ── */
+.stats{border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+  padding:52px 0;margin:0}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;
+  divide:1px solid var(--line)}
+.stat{padding:0 40px;border-right:1px solid var(--line);text-align:center}
+.stat:last-child{border-right:none}
+.stat .num{font-family:'Archivo';font-size:clamp(36px,4vw,56px);font-weight:900;
+  line-height:1;color:var(--orange)}
+.stat .lbl{font-size:14px;color:var(--ink-2);margin-top:6px}
+
+/* ── SECTION ── */
+section{position:relative}
+.block{padding:96px 0}
+.sec-head{max-width:62ch;margin-bottom:52px}
+.sec-head h2{font-size:clamp(30px,4.2vw,52px);font-weight:800;margin-bottom:18px}
+.sec-head p{color:var(--ink-2);font-size:18px;line-height:1.7}
+
+/* ── PAIN ── */
+.pains{display:grid;gap:12px}
+.pain{display:flex;gap:20px;align-items:flex-start;
+  padding:22px 24px;background:var(--bg-2);
+  border:1px solid var(--line);border-radius:12px;
+  transition:border-color .25s,transform .25s}
+.pain:hover{border-color:var(--orange);transform:translateX(5px)}
+.pain .ic{flex:0 0 auto;width:42px;height:42px;border-radius:10px;
+  background:var(--orange-g);display:grid;place-items:center;color:var(--orange)}
+.pain .ic svg{width:20px;height:20px}
+.pain b{display:block;font-family:'Archivo';font-weight:600;font-size:16px;margin-bottom:2px}
+.pain span{color:var(--ink-2);font-size:15px}
+
+/* ── TURN ── */
+.turn-block{background:linear-gradient(160deg,var(--black) 0%,rgba(232,112,64,0.04) 100%);
+  border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.turn-block h2{font-size:clamp(30px,4.8vw,60px);font-weight:900;max-width:20ch}
+.turn-block p{color:var(--ink-2);font-size:18px;max-width:58ch;margin-top:22px;line-height:1.7}
+
+/* ── BENEFITS ── */
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.card{background:var(--bg-2);border:1px solid var(--line);
+  border-radius:14px;padding:28px 24px;
+  transition:border-color .25s,transform .25s}
+.card:hover{border-color:var(--orange);transform:translateY(-4px)}
+.card .ic{width:44px;height:44px;border-radius:10px;background:var(--orange-g);
+  display:grid;place-items:center;color:var(--orange);margin-bottom:16px}
+.card .ic svg{width:22px;height:22px}
+.card b{display:block;font-family:'Archivo';font-weight:700;font-size:17px;
+  margin-bottom:8px;letter-spacing:-0.01em}
+.card p{color:var(--ink-2);font-size:14px;line-height:1.6}
+
+/* ── HOW IT WORKS ── */
+.steps{display:grid;grid-template-columns:repeat(3,1fr);
+  border:1px solid var(--line);border-radius:16px;overflow:hidden}
+.step{padding:36px 30px;border-right:1px solid var(--line);background:var(--bg-2)}
+.step:last-child{border-right:none}
+.step .num{font-family:'JetBrains Mono';font-size:12px;letter-spacing:.12em;
+  color:var(--orange);margin-bottom:16px}
+.step h3{font-size:22px;font-weight:700;margin-bottom:10px}
+.step p{color:var(--ink-2);font-size:14px;line-height:1.6}
+
+/* ── TOOLS ── */
+.tools{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.tool{background:var(--bg-2);border:1px solid var(--line);
+  border-radius:14px;padding:32px;transition:border-color .25s}
+.tool:hover{border-color:var(--line-2)}
+.tool-badge{display:inline-flex;align-items:center;gap:8px;margin-bottom:16px;
+  background:var(--bg-3);border:1px solid var(--line-2);border-radius:100px;
+  padding:6px 14px}
+.tool-badge span{font-family:'JetBrains Mono';font-size:11px;letter-spacing:.08em;color:var(--orange)}
+.tool h3{font-size:21px;font-weight:700;margin-bottom:10px}
+.tool p{color:var(--ink-2);font-size:15px;line-height:1.6}
+
+/* ── TRILHAS ── */
+.trilhas{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.trilha{background:var(--bg-2);border:1px solid var(--line);
+  border-radius:12px;padding:20px 22px;
+  display:flex;align-items:center;gap:16px;
+  transition:border-color .25s}
+.trilha:hover{border-color:var(--orange)}
+.trilha .emoji{font-size:24px;flex:0 0 auto}
+.trilha-info{}
+.trilha b{display:block;font-family:'Archivo';font-weight:600;font-size:15px}
+.trilha span{font-size:13px;color:var(--ink-2)}
+.trilha .badge-skill{display:inline-flex;align-items:center;gap:5px;margin-top:6px;
+  background:var(--amber-g);border:1px solid rgba(232,163,23,0.2);
+  border-radius:100px;padding:3px 10px;
+  font-family:'JetBrains Mono';font-size:10px;letter-spacing:.06em;color:var(--amber)}
+
+/* ── AUDIENCE ── */
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:28px}
+.chip{background:var(--bg-2);border:1px solid var(--line);border-radius:8px;
+  padding:10px 18px;font-size:14px;color:var(--ink-2);
+  transition:all .2s;cursor:default}
+.chip:hover{border-color:var(--orange);color:var(--orange)}
+.aud-close{font-family:'Archivo';font-weight:700;
+  font-size:clamp(17px,2.4vw,22px);max-width:44ch}
+
+/* ── INCLUDES ── */
+.includes{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.inc{display:flex;gap:14px;align-items:flex-start;
+  padding:16px 0;border-bottom:1px solid var(--line)}
+.inc svg{flex:0 0 auto;width:20px;height:20px;color:var(--orange);margin-top:2px}
+.inc span{font-size:15px;color:var(--ink)}
+
+/* ── PRICING ── */
+.price-wrap{display:flex;justify-content:center}
+.price{max-width:500px;width:100%;
+  background:var(--bg-2);
+  border:1px solid var(--line-2);border-radius:20px;
+  padding:48px 44px;text-align:center;position:relative;overflow:hidden}
+.price::before{content:"";position:absolute;top:-30%;left:50%;
+  transform:translateX(-50%);
+  width:130%;height:60%;
+  background:radial-gradient(ellipse,rgba(232,112,64,0.10),transparent 65%);
+  pointer-events:none}
+.price-ribbon{position:relative;display:inline-flex;align-items:center;gap:6px;
+  font-family:'JetBrains Mono';font-weight:500;font-size:11px;
+  letter-spacing:.12em;text-transform:uppercase;
+  color:var(--orange);border:1px solid var(--orange);
+  border-radius:100px;padding:6px 16px;margin-bottom:28px}
+.price-ribbon::before{content:"";width:6px;height:6px;border-radius:50%;
+  background:var(--orange);animation:pulse 2s infinite}
+.price-amount{position:relative;font-family:'Archivo';font-weight:900;
+  font-size:80px;line-height:1;letter-spacing:-0.04em}
+.price-amount small{font-size:28px;font-weight:700;color:var(--ink-2)}
+.price-per{position:relative;color:var(--ink-2);font-size:15px;
+  margin-top:8px;margin-bottom:32px}
+.price ul{position:relative;list-style:none;text-align:left;
+  margin-bottom:32px;display:grid;gap:12px}
+.price li{display:flex;gap:12px;align-items:center;font-size:15px}
+.price li svg{width:18px;height:18px;color:var(--orange);flex:0 0 auto}
+.price .secure{position:relative;margin-top:16px;
+  font-size:13px;color:var(--ink-3)}
+
+/* ── GUARANTEE ── */
+.guarantee{background:var(--bg-2);border:1px solid var(--line);
+  border-radius:16px;padding:44px;display:flex;gap:28px;align-items:flex-start}
+.guarantee .shield{flex:0 0 auto;width:68px;height:68px;border-radius:16px;
+  background:var(--orange-g);display:grid;place-items:center;color:var(--orange)}
+.guarantee .shield svg{width:34px;height:34px}
+.guarantee h3{font-size:24px;font-weight:700;margin-bottom:10px}
+.guarantee p{color:var(--ink-2);font-size:16px;line-height:1.7}
+
+/* ── FAQ ── */
+.faq-item{border-bottom:1px solid var(--line)}
+.faq-q{width:100%;background:none;border:none;color:var(--ink);
+  text-align:left;cursor:pointer;padding:22px 0;
+  display:flex;justify-content:space-between;align-items:center;gap:20px;
+  font-family:'Archivo';font-weight:600;font-size:17px}
+.faq-q .plus{flex:0 0 auto;width:24px;height:24px;position:relative;transition:transform .3s}
+.faq-q .plus::before,.faq-q .plus::after{content:"";position:absolute;
+  background:var(--orange);border-radius:2px}
+.faq-q .plus::before{top:50%;left:0;right:0;height:2px;transform:translateY(-50%)}
+.faq-q .plus::after{left:50%;top:0;bottom:0;width:2px;
+  transform:translateX(-50%);transition:opacity .3s}
+.faq-item.open .plus{transform:rotate(45deg)}
+.faq-item.open .plus::after{opacity:0}
+.faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.faq-a p{color:var(--ink-2);font-size:16px;padding:0 0 22px;max-width:66ch;line-height:1.7}
+
+/* ── FINAL CTA ── */
+.final-cta{text-align:center;padding:120px 0}
+.final-cta h2{font-size:clamp(28px,4.8vw,58px);font-weight:900;
+  max-width:22ch;margin:0 auto 24px}
+.final-cta p{color:var(--ink-2);font-size:18px;max-width:52ch;
+  margin:0 auto 40px;line-height:1.7}
+.final-cta .fine{margin-top:18px;color:var(--ink-3);font-size:14px}
+
+/* ── FOOTER ── */
+footer{border-top:1px solid var(--line);padding:40px 0;
+  text-align:center;color:var(--ink-3);font-size:13px}
+footer .logo{font-size:18px;margin-bottom:10px;display:inline-block;
+  font-family:'Archivo';font-weight:900}
+footer .logo em{font-style:normal;color:var(--orange)}
+
+/* ── REVEAL ── */
+.reveal{opacity:0;transform:translateY(20px);
+  transition:opacity .65s ease,transform .65s ease}
+.reveal.in{opacity:1;transform:none}
+
+/* ── RESPONSIVE ── */
+@media(max-width:900px){
+  .stats-grid,.grid3,.steps,.tools,.trilhas,.includes{grid-template-columns:1fr}
+  .stat{border-right:none;border-bottom:1px solid var(--line);padding:28px 20px}
+  .stat:last-child{border-bottom:none}
+  .step{border-right:none;border-bottom:1px solid var(--line)}
+  .step:last-child{border-bottom:none}
+  .guarantee{flex-direction:column;padding:32px 26px}
+  .block{padding:72px 0}
+  .hero{padding:130px 0 80px}
+}
+@media(prefers-reduced-motion:reduce){
+  .reveal{transition:none;opacity:1;transform:none}
+  .btn:hover{transform:none}
+  html{scroll-behavior:auto}
+  .term-cursor,.hero-badge .dot{animation:none}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="nav-in">
+    <div class="logo">Evol<em>IA</em></div>
+    <a href="#oferta" class="nav-pill">50% OFF — R$47/mês</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="wrap hero-in">
+
+    <div class="hero-badge">
+      <span class="dot"></span>
+      <span class="mono">turma de fundadores · vagas abertas</span>
+    </div>
+
+    <h1>IA prática para <span class="orange">profissionais</span>. <span class="dim">Sem enrolação.</span></h1>
+
+    <p class="sub">Aprenda a usar o Claude e o Gemini no seu trabalho com aulas específicas para a sua profissão — e recupere até 10 horas por semana.</p>
+
+    <div class="hero-actions">
+      <a href="#oferta" class="btn btn-primary">50% OFF — Assinar por R$47/mês</a>
+      <a href="#como" class="btn btn-ghost">Ver como funciona</a>
+    </div>
+    <p class="hero-fine">De <b>R$97</b> por <b>R$47/mês</b> · Mais de 50% OFF · Cancele quando quiser</p>
+
+    <!-- Terminal animado -->
+    <div class="terminal">
+      <div class="term-bar">
+        <div class="term-dot"></div>
+        <div class="term-dot"></div>
+        <div class="term-dot"></div>
+        <span class="term-title">claude.ai — Skill: Proposta Comercial</span>
+      </div>
+      <div class="term-body">
+        <div><span class="term-prompt">você →</span> <span class="term-user">gera uma proposta para o cliente Café Central, consultoria de marketing digital, R$3.500/mês</span></div>
+        <br>
+        <div><span class="term-prompt">IA →</span> <span class="term-ai" id="typewriter"></span><span class="term-cursor"></span></div>
+      </div>
+    </div>
+
+  </div>
+</header>
+
+<!-- STATS -->
+<div class="stats">
+  <div class="wrap">
+    <div class="stats-grid">
+      <div class="stat reveal">
+        <div class="num">78</div>
+        <div class="lbl">aulas práticas</div>
+      </div>
+      <div class="stat reveal">
+        <div class="num">70</div>
+        <div class="lbl">Skills prontas para usar</div>
+      </div>
+      <div class="stat reveal">
+        <div class="num">10</div>
+        <div class="lbl">trilhas por profissão</div>
+      </div>
+      <div class="stat reveal">
+        <div class="num">10h</div>
+        <div class="lbl">por semana de volta pra você</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PAIN -->
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2>Você termina o dia exausto — mas com a sensação de que não saiu do lugar?</h2>
+      <p>Não é falta de competência. É falta de uma ferramenta que faça o trabalho repetitivo por você. A IA já faz isso. Só ninguém te ensinou do jeito certo para a SUA profissão.</p>
+    </div>
+    <div class="pains">
+      <div class="pain reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></div>
+        <div><b>Horas perdidas em tarefas repetitivas</b><span>E-mails, documentos e relatórios escritos do zero, toda vez.</span></div>
+      </div>
+      <div class="pain reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16v16H4z"/><path d="M8 9h8M8 13h5"/></svg></div>
+        <div><b>Os mesmos textos reescritos sem parar</b><span>Propostas, cobranças, comunicados — sempre do início.</span></div>
+      </div>
+      <div class="pain reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h9l5 5v13H6z"/><path d="M14 3v5h5"/></svg></div>
+        <div><b>Documentos longos que tomam a tarde</b><span>Ler tudo para encontrar uma informação que poderia aparecer em segundos.</span></div>
+      </div>
+      <div class="pain reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M9.5 9a2.5 2.5 0 1 1 3.5 2.3c-.6.3-1 .9-1 1.7M12 16h.01"/></svg></div>
+        <div><b>IA que você não sabe como usar de verdade</b><span>Você já tentou. As respostas ficam genéricas, não servem para nada.</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TURN -->
+<section class="turn-block block">
+  <div class="wrap">
+    <span class="eyebrow reveal">A virada</span>
+    <h2 class="reveal" style="margin-top:20px">E se você tivesse um assistente que faz o <span class="orange">trabalho pesado</span> em segundos?</h2>
+    <p class="reveal">Terminar uma proposta em 3 minutos. Organizar 200 e-mails em 20 minutos. Transformar anotações soltas numa ata completa com um clique. Triar currículos sem ler um por um. Não é futuro — é o que você faz na primeira semana, sem código, sem termos técnicos.</p>
+  </div>
+</section>
+
+<!-- BENEFITS -->
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head reveal"><h2>O que você vai conquistar</h2></div>
+    <div class="grid3">
+      <div class="card reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 20l4-1 10-10-3-3L5 16l-1 4z"/><path d="M14 6l3 3"/></svg></div>
+        <b>E-mails e textos em segundos</b>
+        <p>Escreva mensagens profissionais sem travar na primeira linha — do jeito certo, sempre.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 4h14v16H5z"/><path d="M9 9h6M9 13h6M9 17h4"/></svg></div>
+        <b>Reuniões viram atas</b>
+        <p>Transforme anotações e transcrições em decisões e próximos passos organizados.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 3h9l5 5v13H6z"/><path d="M14 3v5h5M9 13h6M9 17h6"/></svg></div>
+        <b>Documentos longos resumidos</b>
+        <p>Leia e extraia o essencial de contratos, processos e relatórios em minutos.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 5h16v14H4z"/><path d="M4 10h16M9 5v14"/></svg></div>
+        <b>Planilhas e dados organizados</b>
+        <p>Crie relatórios e analise dados com o apoio certo, sem fórmulas que assustam.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
+        <b>Uso seguro e responsável</b>
+        <p>Aprenda o que pode e o que não pode colocar na IA — e respeite a LGPD desde o primeiro dia.</p>
+      </div>
+      <div class="card reveal">
+        <div class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></div>
+        <b>70 Skills prontas para usar</b>
+        <p>Configurações prontas do Claude para cada tarefa — plug-and-play, sem precisar escrever prompt.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="block" id="como">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2>Um caminho simples, do zero ao domínio</h2>
+      <p>O EvolIA foi desenhado para quem está começando. Você avança por camadas, no seu ritmo — cada etapa já gera resultado no trabalho.</p>
+    </div>
+    <div class="steps">
+      <div class="step reveal">
+        <div class="num">// CAMADA 01</div>
+        <h3>Fundamentos</h3>
+        <p>Configure tudo, aprenda a "conversar" com a IA e use com segurança. A base que todo mundo precisa — em menos de uma hora.</p>
+      </div>
+      <div class="step reveal">
+        <div class="num">// CAMADA 02</div>
+        <h3>Uso no dia a dia</h3>
+        <p>E-mails, reuniões, documentos e planilhas. Aqui você já sente a diferença concreta na sua semana de trabalho.</p>
+      </div>
+      <div class="step reveal">
+        <div class="num">// CAMADA 03</div>
+        <h3>Trilhas por profissão</h3>
+        <p>7 aulas e 7 Skills específicas para a sua área. Você aprende com as dores reais do seu trabalho.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2>Por que <span class="orange">duas</span> ferramentas, e não uma?</h2>
+      <p>Porque cada uma é melhor em coisas diferentes — e juntas cobrem quase tudo que você precisa. No EvolIA, você aprende exatamente quando usar cada uma.</p>
+    </div>
+    <div class="tools">
+      <div class="tool reveal">
+        <div class="tool-badge"><span>Google Gemini</span></div>
+        <h3>O ajudante dentro do Google</h3>
+        <p>Imbatível no dia a dia: planilhas, documentos, e-mails e imagens — integrado a tudo que você já usa no trabalho.</p>
+      </div>
+      <div class="tool reveal">
+        <div class="tool-badge"><span>Claude</span></div>
+        <h3>O especialista em raciocínio</h3>
+        <p>Excepcional para ler documentos longos, analisar e executar tarefas complexas — e é a base das suas Skills personalizadas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TRILHAS -->
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2>10 trilhas profissionais. Encontre a sua.</h2>
+      <p>Cada trilha tem 7 aulas e 7 Skills feitas para as dores reais daquela profissão. Você acessa todas com uma assinatura.</p>
+    </div>
+    <div class="trilhas">
+      <div class="trilha reveal">
+        <div class="emoji">🧑‍💼</div>
+        <div class="trilha-info">
+          <b>Recursos Humanos</b>
+          <span>Triagem, vagas, entrevistas e comunicação interna</span>
+          <div class="badge-skill">7 Skills</div>
+        </div>
+      </div>
+      <div class="trilha reveal">
+        <div class="emoji">📊</div>
+        <div class="trilha-info">
+          <b>Contabilidade</b>
+          <span>Comunicação com cliente, documentos e conteúdo</span>
+          <div class="badge-skill">7 Skills</div>
+        </div>
+      </div>
+      <div class="trilha reveal">
+        <div class="emoji">⚖️</div>
+        <div class="trilha-info">
+          <b>Direito</b>
+          <span>Peças, resumo de processos e tradução jurídica</span>
+          <div class="badge-skill">7 Skills</div>
+        </div>
+      </div>
+      <div class="trilha reveal">
+        <div class="emoji">📱</div>
+        <div class="trilha-info">
+          <b>Marketing e Social Media</b>
+          <span>Pauta, legendas, roteiros e campanhas</span>
+          <div class="badge-skill">7 Skills</div>
+        </div>
+      </div>
+      <div class="trilha reveal">
+        <div class="emoji">🏠</div>
+        <div class="trilha-info">
+          <b>Corretor de Imóveis</b>
+          <span>Descrições, anúncios e follow-up de leads</span>
+          <div class="badge-skill">7 Skills</div>
+        </div>
+      </div>
+      <div class="trilha reveal">
+        <div class="emoji">💼</div>
+        <div class="trilha-info">
+          <b>Vendas</b>
+          <span>Prospecção, proposta, objeções e funil</span>
+          <div class="badge-skill">7 Skills</div>
+        </div>
+      </div>
+      <div class="trilha reveal">
+        <div class="emoji">🍎</div>
+        <div class="trilha-info">
+          <b>Educação</b>
+          <span>Planos de aula, atividades e comunicação escolar</span>
+          <div class="badge-skill">7 Skills</div>
+        </div>
+      </div>
+      <div class="trilha reveal">
+        <div class="emoji">🛒</div>
+        <div class="trilha-info">
+          <b>Pequeno Empreendedor</b>
+          <span>Atendimento, divulgação e organização do negócio</span>
+          <div class="badge-skill">7 Skills</div>
+        </div>
+      </div>
+      <div class="trilha reveal">
+        <div class="emoji">🗂️</div>
+        <div class="trilha-info">
+          <b>Administração e Secretariado</b>
+          <span>E-mails, agenda, atas e documentos</span>
+          <div class="badge-skill">7 Skills</div>
+        </div>
+      </div>
+      <div class="trilha reveal">
+        <div class="emoji">🩺</div>
+        <div class="trilha-info">
+          <b>Saúde</b>
+          <span>Prontuário, comunicação com paciente e conteúdo</span>
+          <div class="badge-skill">7 Skills</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AUDIENCE -->
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head reveal">
+      <h2>Para quem é o EvolIA</h2>
+      <p>Para qualquer profissional que usa o computador para trabalhar e quer ganhar tempo.</p>
+    </div>
+    <div class="chips reveal">
+      <div class="chip">RH e Recrutamento</div>
+      <div class="chip">Advogados</div>
+      <div class="chip">Contadores</div>
+      <div class="chip">Marketing e Social Media</div>
+      <div class="chip">Corretores</div>
+      <div class="chip">Vendedores</div>
+      <div class="chip">Professores</div>
+      <div class="chip">Empreendedores</div>
+      <div class="chip">Assistentes Administrativos</div>
+      <div class="chip">Profissionais de Saúde</div>
+    </div>
+    <p class="aud-close reveal">Se você sabe abrir o navegador e digitar, você consegue. <span class="orange">O curso começa do absoluto zero.</span></p>
+  </div>
+</section>
+
+<!-- INCLUDES -->
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head reveal"><h2>Tudo o que você recebe ao assinar</h2></div>
+    <div class="includes">
+      <div class="inc reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5 9-11"/></svg><span>Acesso completo a todas as aulas — sempre atualizadas</span></div>
+      <div class="inc reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5 9-11"/></svg><span>10 trilhas por profissão com conteúdo específico</span></div>
+      <div class="inc reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5 9-11"/></svg><span>70 Skills prontas para ativar no Claude gratuito</span></div>
+      <div class="inc reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5 9-11"/></svg><span>Templates e materiais para baixar em cada aula</span></div>
+      <div class="inc reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5 9-11"/></svg><span>Aulas em vídeo, passo a passo, em linguagem simples</span></div>
+      <div class="inc reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5 9-11"/></svg><span>Acesso pelo computador ou celular, quando quiser</span></div>
+      <div class="inc reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5 9-11"/></svg><span>Novos conteúdos todo mês — a assinatura só melhora</span></div>
+      <div class="inc reveal"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5 9-11"/></svg><span>7 dias de garantia incondicional</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="block" id="oferta">
+  <div class="wrap">
+    <div class="sec-head reveal" style="margin:0 auto 48px;text-align:center">
+      <h2>Comece hoje por menos de R$1,57 por dia</h2>
+    </div>
+    <div class="price-wrap">
+      <div class="price reveal">
+        <div class="price-ribbon">⚡ Oferta por tempo limitado</div>
+        <div style="position:relative;margin-bottom:6px">
+          <span style="font-family:'Archivo';font-size:20px;font-weight:600;color:var(--ink-3);text-decoration:line-through">De R$97/mês</span>
+        </div>
+        <div class="price-amount"><small>R$</small>47<small>/mês</small></div>
+        <div style="position:relative;display:inline-flex;align-items:center;gap:8px;background:rgba(232,112,64,0.12);border:1px solid rgba(232,112,64,0.3);border-radius:100px;padding:6px 16px;margin-bottom:16px">
+          <span style="font-family:'JetBrains Mono';font-size:12px;font-weight:500;color:var(--orange);letter-spacing:.06em">+ DE 50% OFF</span>
+        </div>
+        <div class="price-per">Acesso a tudo. Cancele quando quiser.</div>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5 9-11"/></svg>Todas as aulas e trilhas</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5 9-11"/></svg>70 Skills prontas para usar</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5 9-11"/></svg>Novos conteúdos todo mês</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5 9-11"/></svg>Acesso no computador e no celular</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12l5 5 9-11"/></svg>7 dias de garantia incondicional</li>
+        </ul>
+        <a href="https://bit.ly/EvolIa" class="btn btn-primary btn-full">Quero 50% OFF — Assinar por R$47/mês</a>
+        <p class="secure">🔒 Pagamento seguro via Hotmart · Cancele a qualquer momento</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GUARANTEE -->
+<section class="block">
+  <div class="wrap">
+    <div class="guarantee reveal">
+      <div class="shield"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3l7 3v6c0 4-3 7-7 9-4-2-7-5-7-9V6z"/><path d="M9 12l2 2 4-4"/></svg></div>
+      <div>
+        <h3>Garantia incondicional de 7 dias</h3>
+        <p>Assine, assista às aulas, baixe os materiais, ative as Skills, teste tudo. Se nos primeiros 7 dias você sentir que o EvolIA não é para você, devolvemos 100% do valor — sem perguntas. O risco é todo nosso. O tempo que você vai economizar é todo seu.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="block">
+  <div class="wrap">
+    <div class="sec-head reveal"><h2>Perguntas frequentes</h2></div>
+    <div class="faq">
+      <div class="faq-item reveal"><button class="faq-q">Preciso ter experiência com IA?<span class="plus"></span></button><div class="faq-a"><p>Não. O curso começa do absoluto zero. Se você sabe usar o navegador e digitar, você já está pronto para começar.</p></div></div>
+      <div class="faq-item reveal"><button class="faq-q">Preciso pagar pelo Claude ou pelo Gemini?<span class="plus"></span></button><div class="faq-a"><p>Não para começar. Todas as Skills do EvolIA funcionam nas versões gratuitas. Quando mostramos recursos pagos, sempre apresentamos a alternativa gratuita — e deixamos isso claro.</p></div></div>
+      <div class="faq-item reveal"><button class="faq-q">O que são as Skills e como funcionam?<span class="plus"></span></button><div class="faq-a"><p>Skills são configurações prontas do Claude. Em vez de você escrever um prompt do zero, a Skill já está treinada para a sua tarefa. Você baixa, ativa no Claude gratuito e começa a usar — sem precisar entender de programação.</p></div></div>
+      <div class="faq-item reveal"><button class="faq-q">As aulas são ao vivo ou gravadas?<span class="plus"></span></button><div class="faq-a"><p>Gravadas. Você assiste quando e quantas vezes quiser, no seu ritmo, pelo computador ou celular. Cada aula tem em média 15 minutos.</p></div></div>
+      <div class="faq-item reveal"><button class="faq-q">Como funciona a assinatura?<span class="plus"></span></button><div class="faq-a"><p>Você paga R$47 por mês e tem acesso a tudo — incluindo os novos conteúdos que adicionamos todo mês. Pode cancelar quando quiser, direto pela Hotmart, sem precisar falar com ninguém.</p></div></div>
+      <div class="faq-item reveal"><button class="faq-q">E a segurança dos meus dados e dos meus clientes?<span class="plus"></span></button><div class="faq-a"><p>É um pilar do curso. Você aprende logo no início o que pode e não pode colocar na IA, como anonimizar informações e como respeitar a LGPD. Uso responsável é prioridade aqui.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section style="background:linear-gradient(160deg,var(--black) 0%,rgba(232,112,64,0.05) 100%);border-top:1px solid var(--line)">
+  <div class="wrap final-cta">
+    <span class="eyebrow reveal" style="display:inline-flex;justify-content:center">Última chamada</span>
+    <h2 class="reveal" style="margin-top:20px">O tempo que você perde hoje não volta. O de amanhã, você ainda pode salvar.</h2>
+    <p class="reveal">Por menos de R$1,57 por dia, você aprende a virar esse jogo — e entra agora pelo preço de fundador, antes que ele suba.</p>
+    <a href="https://bit.ly/EvolIa" class="btn btn-primary reveal">Quero 50% OFF — R$47/mês por tempo limitado</a>
+    <p class="fine reveal">De R$97 por R$47/mês · Garantia de 7 dias · Cancele quando quiser</p>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="logo">Evol<em>IA</em></div>
+    <p>IA Prática para Profissionais · Brasil</p>
+    <p style="margin-top:6px">© 2026 EvolIA. Todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<script>
+// Nav scroll
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>20));
+
+// Reveal on scroll
+const io=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}});
+},{threshold:0.1});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// Typewriter no terminal
+const lines=[
+  "Proposta Comercial — Café Central",
+  "",
+  "Prezado(a) equipe do Café Central,",
+  "",
+  "Apresentamos nossa proposta de consultoria em",
+  "marketing digital para impulsionar sua presença...",
+  "",
+  "Investimento: R$ 3.500/mês",
+  "Início: imediato após assinatura ✓"
+];
+let li=0,ci=0,out="";
+const el=document.getElementById('typewriter');
+function type(){
+  if(li>=lines.length)return;
+  const line=lines[li];
+  if(ci<line.length){
+    out+=line[ci];ci++;
+    el.textContent=out;
+    setTimeout(type,28);
+  }else{
+    out+="\n";ci=0;li++;
+    el.textContent=out;
+    setTimeout(type,li<lines.length?180:0);
+  }
+}
+setTimeout(type,1200);
+
+// FAQ
+document.querySelectorAll('.faq-q').forEach(q=>{
+  q.addEventListener('click',()=>{
+    const item=q.parentElement;
+    const a=item.querySelector('.faq-a');
+    const open=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>{
+      i.classList.remove('open');
+      i.querySelector('.faq-a').style.maxHeight=null;
+    });
+    if(!open){item.classList.add('open');a.style.maxHeight=a.scrollHeight+'px'}
+  });
+});
+</script>
+</body>
+</html>
