@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EvolIA — IA Prática para Profissionais | 225 Skills de IA</title>
+<meta name="description" content="225 skills de Inteligência Artificial em 3 trilhas: Administrativo, Contábil e Jurídico. Automatize sua rotina por menos de R$ 0,10 por skill.">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+:root{--bg:#0a0a0a;--bg2:#101010;--card:#161616;--card2:#1c1c1c;--line:#282828;--orange:#ff6a00;--orange2:#ff8c33;--soft:#ff6a0018;--glow:#ff6a0044;--txt:#f4f4f4;--muted:#9a9a9a;--green:#28c76f}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;line-height:1.6;overflow-x:hidden}
+::selection{background:var(--orange);color:#000}
+a{text-decoration:none;color:inherit}
+.wrap{max-width:1140px;margin:0 auto;padding:0 22px}
+.grid-bg{position:absolute;inset:0;background-image:linear-gradient(#ffffff08 1px,transparent 1px),linear-gradient(90deg,#ffffff08 1px,transparent 1px);background-size:46px 46px;mask-image:radial-gradient(ellipse 80% 55% at 50% 0%,#000 40%,transparent 100%);pointer-events:none}
+/* topbar */
+.top{position:sticky;top:0;z-index:60;background:#0a0a0aee;backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;justify-content:space-between;height:62px}
+.logo{font-size:22px;font-weight:800;letter-spacing:-.5px}
+.logo b{color:var(--orange)}
+.logo small{display:block;font-size:8.5px;color:var(--muted);letter-spacing:2px;font-weight:600;margin-top:-3px}
+.nav{display:flex;gap:26px;align-items:center}
+.nav a{font-size:13.5px;color:var(--muted);transition:.15s}
+.nav a:hover{color:var(--orange2)}
+.btn{display:inline-block;background:var(--orange);color:#000;font-weight:800;padding:12px 24px;border-radius:10px;font-size:14px;border:none;cursor:pointer;transition:.16s}
+.btn:hover{background:var(--orange2);transform:translateY(-1px);box-shadow:0 8px 22px var(--glow)}
+.btn-lg{padding:16px 34px;font-size:16px}
+.btn-ghost{background:transparent;border:1px solid var(--orange);color:var(--orange2)}
+.btn-ghost:hover{background:var(--soft);box-shadow:none}
+.nav .btn{font-size:12.5px;padding:9px 18px}
+@media(max-width:820px){.nav a:not(.btn){display:none}}
+/* hero */
+.hero{position:relative;text-align:center;padding:80px 0 56px}
+.brackets:before,.brackets:after{content:"";position:absolute;width:34px;height:34px;border:2px solid var(--orange);top:24px}
+.brackets:before{left:22px;border-right:0;border-bottom:0}
+.brackets:after{right:22px;border-left:0;border-bottom:0}
+.kicker{color:var(--orange2);font-weight:800;letter-spacing:4px;font-size:14px;text-transform:uppercase}
+.kicker b{color:var(--txt)}
+.hero h1{font-size:clamp(56px,13vw,150px);font-weight:800;letter-spacing:-4px;line-height:.82;margin:14px 0 6px}
+.hero h1 .o{color:var(--orange)}
+.hero .lead{font-size:clamp(17px,2.4vw,22px);color:#e6e6e6;max-width:720px;margin:22px auto 0}
+.hero .lead b{color:var(--orange2)}
+.stats{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:30px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px 22px;min-width:120px}
+.stat b{display:block;font-size:30px;color:var(--orange);font-weight:800;line-height:1}
+.stat span{font-size:11.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.6px}
+.hero .cta-row{margin-top:34px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+/* section */
+.sec{padding:70px 0;position:relative}
+.sec-head{text-align:center;max-width:720px;margin:0 auto 44px}
+.sec-head .tag{color:var(--orange2);font-size:13px;font-weight:800;letter-spacing:2px;text-transform:uppercase}
+.sec-head h2{font-size:clamp(28px,4.4vw,42px);font-weight:800;letter-spacing:-1px;margin-top:10px}
+.sec-head h2 .o{color:var(--orange)}
+.sec-head p{color:var(--muted);margin-top:12px;font-size:16px}
+/* trilhas */
+.trilhas{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+@media(max-width:820px){.trilhas{grid-template-columns:1fr}}
+.tcard{background:var(--card);border:1.5px solid var(--line);border-radius:18px;padding:26px;cursor:pointer;transition:.18s;position:relative;overflow:hidden;text-align:center}
+.tcard:hover{transform:translateY(-3px);border-color:var(--orange)}
+.tcard.active{border-color:var(--orange);box-shadow:0 0 0 1px var(--orange),0 14px 40px var(--glow)}
+.tcard:before{content:"";position:absolute;right:-30px;top:-30px;width:100px;height:100px;background:radial-gradient(circle,var(--orange),transparent 70%);opacity:.16}
+.tcard .ico{font-size:34px}
+.tcard .badge{display:inline-block;font-size:11px;color:var(--orange2);background:var(--soft);padding:3px 12px;border-radius:20px;font-weight:800;margin:6px 0 4px}
+.tcard h3{font-size:23px;font-weight:800;letter-spacing:-.4px;margin-top:6px}
+.tcard .sub{color:var(--muted);font-size:13px;margin-top:4px}
+.tcard .meta{display:flex;justify-content:center;gap:18px;margin-top:16px;font-size:12.5px;color:#cfcfcf}
+.tcard .meta b{color:var(--orange2)}
+.tcard .open{margin-top:16px;font-size:12.5px;color:var(--orange2);font-weight:700}
+/* painel */
+.painel{margin-top:22px;background:linear-gradient(180deg,#141414,#0e0e0e);border:1px solid var(--orange);border-radius:20px;padding:30px;display:none}
+.painel.show{display:block;animation:fade .3s ease}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.painel-head{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:16px;border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:20px}
+.painel-head h3{font-size:26px;font-weight:800;letter-spacing:-.5px}
+.painel-head h3 .o{color:var(--orange)}
+.painel-head .pmeta{color:var(--muted);font-size:13.5px;margin-top:4px}
+.buybox{text-align:right}
+.buybox .price{font-size:14px;color:var(--muted)}
+.buybox .price s{opacity:.6}
+.buybox .price b{color:#fff;font-size:26px;font-weight:800}
+.buybox .price b .o{color:var(--orange)}
+/* accordion modulos */
+.mod{border:1px solid var(--line);border-radius:12px;margin-bottom:10px;overflow:hidden;background:var(--card)}
+.mod-h{display:flex;align-items:center;gap:12px;padding:15px 18px;cursor:pointer;font-weight:700;font-size:15px}
+.mod-h:hover{background:var(--card2)}
+.mod-h .n{width:26px;height:26px;border-radius:7px;background:var(--soft);color:var(--orange2);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;flex-shrink:0}
+.mod-h .cnt{margin-left:auto;font-size:11.5px;color:var(--orange2);background:var(--soft);padding:2px 10px;border-radius:20px}
+.mod-h .arw{color:var(--orange);transition:.2s;font-size:13px}
+.mod.open .arw{transform:rotate(90deg)}
+.mod-body{display:none;padding:4px 18px 16px 56px}
+.mod.open .mod-body{display:block}
+.mod-body ul{list-style:none;columns:2;column-gap:24px}
+@media(max-width:640px){.mod-body ul{columns:1}}
+.mod-body li{font-size:13px;color:#c8c8c8;padding:5px 0 5px 18px;position:relative;break-inside:avoid}
+.mod-body li:before{content:"▸";color:var(--orange);position:absolute;left:0}
+.painel-cta{text-align:center;margin-top:22px}
+/* calculadora */
+.calc{background:linear-gradient(160deg,#161616,#0d0d0d);border:1px solid var(--line);border-radius:22px;padding:32px}
+.calc-tabs{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:26px}
+.calc-tab{background:var(--card);border:1px solid var(--line);color:var(--muted);padding:10px 20px;border-radius:10px;cursor:pointer;font-weight:700;font-size:14px;transition:.15s}
+.calc-tab.active{background:var(--orange);color:#000;border-color:var(--orange)}
+.calc-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px}
+@media(max-width:860px){.calc-grid{grid-template-columns:1fr}}
+.sliders .srow{margin-bottom:18px}
+.sliders label{display:flex;justify-content:space-between;font-size:13.5px;margin-bottom:6px}
+.sliders label b{color:var(--orange2)}
+input[type=range]{width:100%;-webkit-appearance:none;height:6px;border-radius:5px;background:#333;outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:20px;height:20px;border-radius:50%;background:var(--orange);cursor:pointer;box-shadow:0 0 0 4px var(--soft)}
+input[type=range]::-moz-range-thumb{width:20px;height:20px;border:0;border-radius:50%;background:var(--orange);cursor:pointer}
+.result{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;text-align:center}
+.result .big{font-size:52px;font-weight:800;color:var(--orange);line-height:1}
+.result .big small{font-size:22px;color:var(--muted)}
+.result .lbl{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:16px}
+.result .row2{display:flex;gap:12px;margin-top:18px}
+.result .mini{flex:1;background:var(--bg2);border:1px solid var(--line);border-radius:12px;padding:12px}
+.result .mini b{display:block;font-size:22px;color:#fff;font-weight:800}
+.result .mini span{font-size:11px;color:var(--muted)}
+.result .money{margin-top:16px;font-size:14px;color:#cfcfcf}
+.result .money b{color:var(--green);font-size:20px}
+.chart-wrap{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:18px;margin-top:22px}
+.chart-wrap h4{font-size:13px;color:var(--muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px;text-align:center}
+.calc-note{text-align:center;font-size:11.5px;color:#6f6f6f;margin-top:14px}
+/* dores/passos */
+.cols{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.pcard{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px}
+.pcard .ic{width:44px;height:44px;border-radius:11px;background:var(--soft);color:var(--orange);display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:800;margin-bottom:12px}
+.pcard h4{font-size:16px;margin-bottom:6px}
+.pcard p{color:var(--muted);font-size:13.5px}
+.steps{counter-reset:s}
+.step .num{width:40px;height:40px;border-radius:11px;background:var(--orange);color:#000;font-weight:800;font-size:18px;display:flex;align-items:center;justify-content:center;margin-bottom:14px}
+/* depoimentos */
+.deps{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:16px}
+.dep{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:24px}
+.dep .stars{color:var(--orange);font-size:15px;letter-spacing:2px}
+.dep p{font-size:14px;color:#dcdcdc;margin:12px 0}
+.dep .who{display:flex;align-items:center;gap:12px}
+.dep .av{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--orange),#b34a00);display:flex;align-items:center;justify-content:center;font-weight:800;color:#000}
+.dep .who b{font-size:14px}
+.dep .who span{font-size:12px;color:var(--muted)}
+.dep-note{text-align:center;font-size:11.5px;color:#6f6f6f;margin-top:16px}
+/* faq */
+.faq{max-width:800px;margin:0 auto}
+.qa{background:var(--card);border:1px solid var(--line);border-radius:14px;margin-bottom:12px;overflow:hidden}
+.qa summary{padding:20px 24px;font-weight:700;font-size:15.5px;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:14px}
+.qa summary::-webkit-details-marker{display:none}
+.qa summary:after{content:"+";color:var(--orange);font-size:24px;font-weight:400;transition:.2s}
+.qa[open] summary:after{transform:rotate(45deg)}
+.qa .a{padding:0 24px 22px;color:var(--muted);font-size:14.5px}
+/* seguranca */
+.trust{display:flex;gap:16px;flex-wrap:wrap;justify-content:center}
+.trust .t{display:flex;align-items:center;gap:12px;background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px 22px}
+.trust .t .ic{font-size:22px}
+.trust .t b{font-size:14px}
+.trust .t span{font-size:12px;color:var(--muted)}
+footer{border-top:1px solid var(--line);padding:34px 0;text-align:center;color:#5a5a5a;font-size:12.5px;margin-top:20px}
+footer b{color:var(--muted)}
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap">
+  <div class="logo">Evol<b>IA</b><small>IA PRÁTICA PARA PROFISSIONAIS</small></div>
+  <nav class="nav">
+    <a href="#trilhas">Trilhas</a>
+    <a href="#economia">Economia de tempo</a>
+    <a href="#faq">Dúvidas</a>
+    <a href="#trilhas" class="btn">Escolher trilha</a>
+  </nav>
+</div></header>
+
+<section class="hero brackets">
+  <div class="grid-bg"></div>
+  <div class="wrap">
+    <div class="kicker">IA PRÁTICA <b>PARA PROFISSIONAIS</b></div>
+    <h1>EVOL<span class="o">IA</span></h1>
+    <p class="lead"><b>225 skills de Inteligência Artificial</b> em 3 trilhas para automatizar a rotina do Administrativo, da Contabilidade e da Advocacia. Copie, cole e deixe a IA trabalhar por você.</p>
+    <div class="stats">
+      <div class="stat"><b>225</b><span>Skills de IA</span></div>
+      <div class="stat"><b>3</b><span>Trilhas</span></div>
+      <div class="stat"><b>R$ 0,10</b><span>Por skill</span></div>
+      <div class="stat"><b>100%</b><span>Português</span></div>
+    </div>
+    <div class="cta-row">
+      <a href="#trilhas" class="btn btn-lg">Escolha sua trilha →</a>
+      <a href="#economia" class="btn btn-ghost btn-lg">Ver quanto economizo</a>
+    </div>
+  </div>
+</section>
+
+<section class="sec" id="trilhas">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag">Escolha o seu caminho</span>
+      <h2>3 trilhas, <span class="o">225 skills</span></h2>
+      <p>Clique na sua área e veja todos os módulos e as skills incluídas.</p>
+    </div>
+    <div class="trilhas" id="tcards"></div>
+    <div class="painel" id="painel"></div>
+  </div>
+</section>
+
+<section class="sec" id="economia" style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="tag">Calculadora</span>
+      <h2>Quanto tempo você <span class="o">economiza</span>?</h2>
+      <p>Escolha sua trilha e ajuste quantas vezes por semana você faz cada tarefa. Veja o resultado ao vivo.</p>
+    </div>
+    <div class="calc">
+      <div class="calc-tabs" id="calcTabs"></div>
+      <div class="calc-grid">
+        <div class="sliders" id="sliders"></div>
+        <div class="result">
+          <div class="lbl">Você economiza por semana</div>
+          <div class="big" id="rHoras">0<small>h</small></div>
+          <div class="row2">
+            <div class="mini"><b id="rMes">0h</b><span>POR MÊS</span></div>
+            <div class="mini"><b id="rAno">0h</b><span>POR ANO</span></div>
+          </div>
+          <div class="money">Equivale a <b id="rDinheiro">R$ 0</b> por mês do seu tempo*</div>
+        </div>
+      </div>
+      <div class="chart-wrap">
+        <h4>Tempo por semana: sem IA vs com EvolIA (minutos)</h4>
+        <div style="height:230px"><canvas id="chart"></canvas></div>
+      </div>
+      <div class="calc-note">* Estimativas ilustrativas, considerando o valor de R$ 30/hora do seu tempo. Ajuste conforme a sua realidade. Os ganhos reais variam por pessoa e tarefa.</div>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="sec-head"><span class="tag">Simples assim</span><h2>Como funciona</h2><p>Você não precisa saber programar. Se sabe copiar e colar, sabe usar.</p></div>
+    <div class="cols steps">
+      <div class="pcard"><div class="num">1</div><h4>Escolha sua trilha</h4><p>Administrativo, Contábil ou Jurídico — conforme a sua área.</p></div>
+      <div class="pcard"><div class="num">2</div><h4>Acesse as skills</h4><p>Área de membros organizada por módulos, com passo a passo.</p></div>
+      <div class="pcard"><div class="num">3</div><h4>Copie o SKILL.md</h4><p>Um clique e você cola na sua ferramenta de IA (Claude/Cowork).</p></div>
+      <div class="pcard"><div class="num">4</div><h4>Deixe a IA trabalhar</h4><p>Descreva a tarefa e receba o resultado pronto em segundos.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="sec" style="background:var(--bg2);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+  <div class="wrap">
+    <div class="sec-head"><span class="tag">Quem usa, recomenda</span><h2>O que dizem</h2></div>
+    <div class="deps">
+      <div class="dep"><div class="stars">★★★★★</div><p>"Economizo pelo menos 1 hora por dia só com os e-mails e relatórios. Valeu cada centavo."</p><div class="who"><div class="av">M</div><div><b>Marina S.</b><span>Assistente Administrativa</span></div></div></div>
+      <div class="dep"><div class="stars">★★★★★</div><p>"No fechamento do mês as skills de conferência me pouparam horas. Recomendo a todo contador."</p><div class="who"><div class="av">R</div><div><b>Rafael T.</b><span>Contador</span></div></div></div>
+      <div class="dep"><div class="stars">★★★★★</div><p>"A estrutura de petições e o resumo de processos aceleraram muito meu escritório. Sempre revisando, claro."</p><div class="who"><div class="av">C</div><div><b>Camila O.</b><span>Advogada</span></div></div></div>
+    </div>
+    <div class="dep-note">Depoimentos ilustrativos — substitua pelos comentários reais dos seus alunos assim que tiver.</div>
+  </div>
+</section>
+
+<section class="sec" id="faq">
+  <div class="wrap">
+    <div class="sec-head"><span class="tag">Dúvidas</span><h2>Perguntas frequentes</h2></div>
+    <div class="faq">
+      <details class="qa"><summary>Preciso saber programar?</summary><div class="a">Não. Cada skill é um arquivo pronto. Você copia, cola na ferramenta de IA (Claude/Cowork) e descreve a tarefa. Se sabe copiar e colar, já sabe usar.</div></details>
+      <details class="qa"><summary>Posso comprar mais de uma trilha?</summary><div class="a">Sim. Cada trilha é vendida separadamente por R$ 7,49. Compre as que fizerem sentido para você — administrativo, contábil e/ou jurídico.</div></details>
+      <details class="qa"><summary>As skills funcionam em quais ferramentas?</summary><div class="a">Seguem o padrão de skills do Claude e funcionam no Claude e no Cowork. O conteúdo também serve de base para outras IAs que aceitem instruções personalizadas.</div></details>
+      <details class="qa"><summary>É pagamento único?</summary><div class="a">Sim, R$ 7,49 por trilha, uma única vez, sem mensalidade. Acesso imediato após a confirmação do pagamento.</div></details>
+      <details class="qa"><summary>E a segurança dos meus dados e dos clientes?</summary><div class="a">Todas as trilhas trazem orientações de LGPD e, nas áreas contábil e jurídica, cuidados de sigilo profissional. As skills orientam anonimizar dados de terceiros antes de usar.</div></details>
+      <details class="qa"><summary>Tem garantia?</summary><div class="a">Sim, garantia de 7 dias. Se não gostar, você pede o reembolso pela própria Hotmart, sem burocracia.</div></details>
+    </div>
+  </div>
+</section>
+
+<section class="sec">
+  <div class="wrap">
+    <div class="trust">
+      <div class="t"><span class="ic">🔒</span><div><b>Compra segura</b><br><span>Processada pela Hotmart</span></div></div>
+      <div class="t"><span class="ic">🛡️</span><div><b>Garantia de 7 dias</b><br><span>Risco zero para você</span></div></div>
+      <div class="t"><span class="ic">⚡</span><div><b>Acesso imediato</b><br><span>Assim que o pagamento é aprovado</span></div></div>
+      <div class="t"><span class="ic">🧠</span><div><b>225 skills no total</b><br><span>3 trilhas profissionais</span></div></div>
+    </div>
+  </div>
+</section>
+
+<footer><div class="wrap">
+  <b>EvolIA</b> — Evoluir com IA · IA Prática para Profissionais<br>
+  As skills são ferramentas de apoio à produtividade. Nas áreas contábil e jurídica, não substituem a responsabilidade técnica do profissional (CRC/OAB). Confira sempre o resultado antes de usar.
+</div></footer>
+
+<script>
+const DATA={"adm": {"nome": "Administrativo", "tag": "Para o Administrativo", "checkout": "https://pay.hotmart.com/Q106522376G", "total": 75, "modulos": [{"nome": "Comunicação", "skills": ["Escritor de E-mails Profissionais", "Revisor de Tom de Mensagem", "Respostas Rápidas de E-mail", "Redator de Comunicados Internos", "Gerador de Atas de Reunião", "Formatador de Mensagens de WhatsApp Corporativo", "Redator de Avisos e Circulares", "Resumidor de Threads de E-mail", "Gerador de Respostas a Reclamações", "Redator de Convites e Confirmações", "Tradutor Corporativo PT-EN", "Gerador de Assinatura e Modelos de E-mail"]}, {"nome": "Documentos & Planilhas", "skills": ["Limpeza de Planilha Bagunçada", "Padronizador de Dados de Cadastro", "Conferidor de Planilha vs Documento", "Gerador de Relatório a partir de Planilha", "Criador de Tabelas Dinâmicas Explicadas", "Extrator de Dados de Documentos", "Formatador de Documentos (Padrão ABNT/Empresa)", "Gerador de Modelos de Documentos", "Comparador de Versões de Documento", "Resumidor de Documentos Longos", "Gerador de Gráfico a partir de Dados", "Validador de CPF/CNPJ em Lista", "Conversor de Formatos de Data e Número"]}, {"nome": "Organização & Rotina", "skills": ["Montador de Agenda Diária", "Priorizador de Tarefas", "Gerador de Checklists Operacionais", "Controlador de Follow-ups", "Planejador Semanal do Administrativo", "Gerador de Pauta de Reunião", "Organizador de Caixa de Entrada", "Lembretes e Prazos Recorrentes", "Gerador de Procedimento Operacional Padrão (POP)", "Distribuidor de Tarefas da Equipe", "Registro de Protocolo e Entrada de Documentos", "Planejador de Viagem Corporativa"]}, {"nome": "Atendimento & Fornecedores", "skills": ["Solicitador de Cotações", "Comparador de Propostas e Orçamentos", "Gerador de Mapa de Cotação", "Redator de Pedido de Compra", "Avaliador de Fornecedores", "Gerador de Script de Atendimento", "Registro e Triagem de Chamados", "Redator de Resposta a Fornecedor", "Checklist de Contratação de Fornecedor", "Gerador de FAQ de Atendimento", "Conferidor de Contrato — Pontos de Atenção", "Gerador de Termo de Confidencialidade Simples"]}, {"nome": "Financeiro / Administrativo", "skills": ["Controle de Despesas Mensais", "Conciliação Simples de Extrato", "Categorizador de Lançamentos", "Gerador de Relatório de Reembolso", "Conferidor de Notas Fiscais", "Controle de Contas a Pagar e Receber", "Gerador de Fluxo de Caixa Simples", "Calculadora de Rateio de Custos", "Gerador de Cobrança Amigável", "Controle de Adiantamentos e Prestação de Contas", "Montador de Planilha de Orçamento", "Resumo Financeiro para Gestor", "Alertas de Vencimento de Contas"]}, {"nome": "RH & Pessoal Administrativo", "skills": ["Gerador de Descrição de Vaga", "Triagem de Currículos", "Gerador de Roteiro de Entrevista", "Onboarding de Novo Colaborador (Checklist)", "Controle de Férias e Ausências", "Gerador de Comunicado de RH", "Montador de Escala de Trabalho", "Registro de Ponto e Justificativas"]}, {"nome": "Produtividade com IA", "skills": ["Montador de Prompts para Tarefas", "Assistente de Decisão Rápida", "Gerador de Resumo Executivo", "Automatizador de Tarefas Repetitivas (Guia)", "Boas Práticas de LGPD no Uso de IA"]}], "calc": [{"n": "E-mails profissionais", "sem": 40, "com": 3, "freq": 10}, {"n": "Limpeza de planilhas", "sem": 60, "com": 6, "freq": 3}, {"n": "Atas de reunião", "sem": 30, "com": 4, "freq": 2}, {"n": "Relatórios", "sem": 90, "com": 10, "freq": 1}]}, "con": {"nome": "Contábil", "tag": "Para Contadores", "checkout": "https://pay.hotmart.com/J106550166J", "total": 75, "modulos": [{"nome": "Fiscal & Tributário", "skills": ["Conferidor de Notas Fiscais (Entrada e Saída)", "Apurador de Simples Nacional (Explicado)", "Apurador de Lucro Presumido", "Checklist de Obrigações Acessórias", "Conferidor de SPED Fiscal (EFD ICMS/IPI)", "Conferidor de EFD-Contribuições (PIS/COFINS)", "Gerador de Resumo de Guia de Impostos", "Classificador de CFOP", "Consultor de CST e NCM", "Comparador de Regimes Tributários", "Detector de Divergências Fiscais", "Explicador de Legislação Tributária", "Montador de Calendário Fiscal", "Gerador de Resposta ao Fisco", "Conferidor de Retenções (IRRF, ISS, INSS, PIS/COFINS/CSLL)", "Resumo de Alterações na Legislação"]}, {"nome": "Contábil & Societário", "skills": ["Classificador de Lançamentos Contábeis", "Conciliador de Contas Contábeis", "Analisador de Balancete", "Gerador de DRE Explicada", "Gerador de Balanço Patrimonial (Resumo)", "Detector de Inconsistências Contábeis", "Explicador de Indicadores Contábeis", "Montador de Plano de Contas", "Gerador de Notas Explicativas", "Checklist de Abertura de Empresa", "Checklist de Alteração Contratual", "Checklist de Encerramento de Empresa", "Gerador de Contrato Social (Resumo)", "Analisador de Evolução Patrimonial", "Gerador de Relatório Contábil para Cliente"]}, {"nome": "Departamento Pessoal & Folha", "skills": ["Conferidor de Folha de Pagamento", "Calculadora de Rescisão Explicada", "Calculadora de Férias Explicada", "Checklist de Admissão de Colaborador", "Checklist de Demissão", "Conferidor de eSocial", "Gerador de Holerite Explicado", "Calculadora de Décimo Terceiro Explicada", "Controle de Prazos Trabalhistas", "Explicador de Encargos Trabalhistas", "Gerador de Comunicados Trabalhistas", "Conferidor de Ponto e Horas Extras", "Montador de Escala e Jornada", "Guia de Benefícios Obrigatórios", "Detector de Riscos Trabalhistas"]}, {"nome": "Atendimento, Honorários & Gestão", "skills": ["Redator de E-mails para Clientes Contábeis", "Explicador de Impostos para Leigos", "Gerador de Proposta de Honorários", "Reajustador de Honorários (Comunicado)", "Gerador de Cobrança de Honorários", "Onboarding de Novo Cliente Contábil", "Checklist de Troca de Contabilidade", "Gerador de Relatório Mensal ao Cliente", "Redator de Resposta a Dúvidas Fiscais", "Gerador de Contrato de Prestação de Serviços (Resumo)", "Controle de Documentos Pendentes do Cliente", "Gerador de Circular para Clientes", "Avaliador de Rentabilidade por Cliente", "Gerador de FAQ Contábil", "Script de Atendimento Contábil"]}, {"nome": "Produtividade & IA para Contadores", "skills": ["Montador de Prompts Contábeis", "Resumidor de Documentos Fiscais Longos", "Extrator de Dados de Notas e Guias", "Gerador de Checklist de Fechamento Mensal", "Organizador de Rotina do Departamento", "Gerador de POP Contábil", "Assistente de Conferência de Dados", "Gerador de Resumo Executivo para Sócio", "Tradutor de Termos Contábeis", "Priorizador de Tarefas do Escritório", "Gerador de Relatório de Produtividade", "Boas Práticas de LGPD na Contabilidade", "Guia de Uso Seguro de IA com Dados Fiscais", "Automatizador de Tarefas Repetitivas Contábeis"]}], "calc": [{"n": "Conferir notas fiscais", "sem": 45, "com": 6, "freq": 5}, {"n": "Explicar imposto ao cliente", "sem": 25, "com": 3, "freq": 4}, {"n": "Relatório mensal ao cliente", "sem": 60, "com": 8, "freq": 2}, {"n": "Proposta de honorários", "sem": 30, "com": 5, "freq": 1}]}, "jur": {"nome": "Jurídico", "tag": "Para Advogados", "checkout": "https://pay.hotmart.com/L106557873F", "total": 75, "modulos": [{"nome": "Peças & Redação Jurídica", "skills": ["Redator de Petição Inicial (Estrutura)", "Gerador de Contestação (Estrutura)", "Montador de Recurso de Apelação", "Redator de Notificação Extrajudicial", "Gerador de Contrato Civil (Estrutura)", "Revisor de Peça Jurídica", "Gerador de Parecer Jurídico (Estrutura)", "Montador de Quesitos e Impugnações", "Redator de Procuração e Substabelecimento", "Gerador de Cláusulas Contratuais", "Simplificador de Linguagem Jurídica", "Gerador de Memoriais", "Redator de Acordo e Transação", "Montador de Rol de Documentos e Provas", "Gerador de Defesa Administrativa", "Revisor de Citações e Fundamentação", "Padronizador de Formatação de Peças"]}, {"nome": "Gestão de Casos, Prazos & Documentos", "skills": ["Controlador de Prazos Processuais", "Resumidor de Andamento Processual", "Organizador de Pasta de Processo", "Gerador de Timeline do Caso", "Checklist de Protocolo de Peça", "Montador de Agenda de Audiências", "Gerador de Relatório de Status do Processo", "Extrator de Dados de Intimações", "Controle de Diligências e Tarefas", "Gerador de Checklist por Tipo de Ação", "Registro de Horas Trabalhadas por Caso", "Montador de Controle de Processos (Planilha)", "Gerador de Lembretes de Prazo", "Organizador de Documentos do Cliente", "Checklist de Distribuição de Ação"]}, {"nome": "Atendimento, Clientes & Honorários", "skills": ["Redator de E-mails para Clientes Jurídicos", "Explicador de Processo para o Cliente", "Gerador de Contrato de Honorários", "Gerador de Proposta de Serviços Jurídicos", "Gerador de Cobrança de Honorários Jurídicos", "Onboarding de Novo Cliente Jurídico", "Gerador de Relatório Periódico ao Cliente", "Redator de Resposta a Dúvidas Jurídicas", "Script de Atendimento Jurídico", "Gerador de Termo de Ciência e Risco", "Montador de Questionário de Entrevista do Cliente", "Gerador de FAQ Jurídico", "Redator de Comunicado de Decisão ao Cliente", "Avaliador de Viabilidade Inicial do Caso", "Gerador de Circular para Clientes (Jurídico)"]}, {"nome": "Pesquisa & Análise Jurídica", "skills": ["Resumidor de Jurisprudência", "Analisador de Decisão Judicial", "Comparador de Jurisprudências", "Extrator de Teses de Acórdão", "Resumidor de Processo Longo", "Analisador de Contrato — Pontos de Risco", "Gerador de Roteiro de Pesquisa Jurídica", "Explicador de Conceitos Jurídicos", "Montador de Tabela de Precedentes", "Analisador de Peças da Parte Contrária", "Gerador de Fundamentos por Tema", "Conferidor de Requisitos Legais", "Resumidor de Legislação", "Montador de Linha Argumentativa"]}, {"nome": "Produtividade, Ética & IA no Direito", "skills": ["Montador de Prompts Jurídicos", "Gerador de POP do Escritório Jurídico", "Priorizador de Tarefas Jurídicas", "Gerador de Modelos Reutilizáveis", "Assistente de Conferência de Peças", "Gerador de Resumo Executivo para Sócio Jurídico", "Organizador de Rotina do Advogado", "Gerador de Relatório de Produtividade Jurídica", "Automatizador de Tarefas Repetitivas Jurídicas", "Boas Práticas LGPD na Advocacia", "Guia de Uso Ético de IA na Advocacia", "Guia de Sigilo Profissional e IA", "Checklist de Revisão Final Antes do Protocolo", "Gerador de Glossário Jurídico do Escritório"]}], "calc": [{"n": "Estrutura de petição", "sem": 90, "com": 15, "freq": 3}, {"n": "Resumo de processo", "sem": 60, "com": 8, "freq": 3}, {"n": "Resumo de jurisprudência", "sem": 40, "com": 6, "freq": 4}, {"n": "E-mail ao cliente", "sem": 20, "com": 3, "freq": 5}]}};
+const ORDER=["adm","con","jur"];
+const ICON={adm:"🗂️",con:"📊",jur:"⚖️"};
+const PRICE_FROM="R$197";
+let active="adm";
+
+/* trilha cards */
+const tcards=document.getElementById("tcards");
+ORDER.forEach(k=>{
+  const t=DATA[k];
+  const el=document.createElement("div");
+  el.className="tcard"+(k===active?" active":"");
+  el.dataset.k=k;
+  el.innerHTML=`<div class="ico">${ICON[k]}</div>
+    <div class="badge">${t.total} SKILLS</div>
+    <h3>EvolIA ${t.nome}</h3>
+    <div class="sub">${t.tag}</div>
+    <div class="meta"><span><b>${t.modulos.length}</b> módulos</span><span><b>${t.total}</b> skills</span></div>
+    <div class="open">Ver módulos e skills ↓</div>`;
+  el.onclick=()=>selectTrilha(k);
+  tcards.appendChild(el);
+});
+
+function selectTrilha(k){
+  active=k;
+  document.querySelectorAll(".tcard").forEach(c=>c.classList.toggle("active",c.dataset.k===k));
+  renderPainel(k);
+  document.getElementById("painel").scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
+function renderPainel(k){
+  const t=DATA[k];const p=document.getElementById("painel");
+  let mods=t.modulos.map((m,i)=>`
+    <div class="mod">
+      <div class="mod-h" onclick="this.parentNode.classList.toggle('open')">
+        <span class="n">${String(i+1).padStart(2,'0')}</span>
+        <span>${m.nome}</span>
+        <span class="cnt">${m.skills.length} skills</span>
+        <span class="arw">▶</span>
+      </div>
+      <div class="mod-body"><ul>${m.skills.map(s=>`<li>${s}</li>`).join("")}</ul></div>
+    </div>`).join("");
+  p.innerHTML=`
+    <div class="painel-head">
+      <div>
+        <h3>EvolIA <span class="o">${t.nome}</span></h3>
+        <div class="pmeta">${t.total} skills · ${t.modulos.length} módulos · ${t.tag}</div>
+      </div>
+      <div class="buybox">
+        <div class="price"><s>${PRICE_FROM}</s> &nbsp;por <b>R$ <span class="o">7,49</span></b></div>
+        <a href="${t.checkout}" target="_blank" rel="noopener" class="btn btn-lg" style="margin-top:8px">Comprar esta trilha →</a>
+      </div>
+    </div>
+    ${mods}
+    <div class="painel-cta"><a href="${t.checkout}" target="_blank" rel="noopener" class="btn btn-lg">Garantir a trilha ${t.nome} por R$ 7,49 →</a></div>`;
+  p.classList.add("show");
+}
+
+/* calculadora */
+let calcKey="adm", chart=null, freqs={};
+const calcTabs=document.getElementById("calcTabs");
+ORDER.forEach(k=>{
+  const b=document.createElement("div");
+  b.className="calc-tab"+(k===calcKey?" active":"");
+  b.textContent=DATA[k].nome; b.dataset.k=k;
+  b.onclick=()=>{calcKey=k;document.querySelectorAll(".calc-tab").forEach(x=>x.classList.toggle("active",x.dataset.k===k));buildSliders();};
+  calcTabs.appendChild(b);
+});
+function buildSliders(){
+  const tasks=DATA[calcKey].calc;
+  freqs[calcKey]=freqs[calcKey]||tasks.map(t=>t.freq);
+  const s=document.getElementById("sliders");
+  s.innerHTML=tasks.map((t,i)=>`
+    <div class="srow">
+      <label>${t.n} <b><span id="fv${i}">${freqs[calcKey][i]}</span>x/semana</b></label>
+      <input type="range" min="0" max="30" value="${freqs[calcKey][i]}" oninput="upd(${i},this.value)">
+    </div>`).join("");
+  recalc();
+}
+function upd(i,v){freqs[calcKey][i]=+v;document.getElementById("fv"+i).textContent=v;recalc();}
+function recalc(){
+  const tasks=DATA[calcKey].calc, f=freqs[calcKey];
+  let savedMin=0;
+  tasks.forEach((t,i)=>{savedMin+=(t.sem-t.com)*f[i];});
+  const hSem=savedMin/60;
+  document.getElementById("rHoras").innerHTML=hSem.toFixed(1).replace('.',',')+"<small>h</small>";
+  document.getElementById("rMes").textContent=(hSem*4.33).toFixed(0)+"h";
+  document.getElementById("rAno").textContent=(hSem*52).toFixed(0)+"h";
+  document.getElementById("rDinheiro").textContent="R$ "+Math.round(hSem*4.33*30).toLocaleString('pt-BR');
+  drawChart();
+}
+function drawChart(){
+  const tasks=DATA[calcKey].calc, f=freqs[calcKey];
+  const labels=tasks.map(t=>t.n);
+  const semIA=tasks.map((t,i)=>t.sem*f[i]);
+  const comIA=tasks.map((t,i)=>t.com*f[i]);
+  if(chart){chart.data.labels=labels;chart.data.datasets[0].data=semIA;chart.data.datasets[1].data=comIA;chart.update();return;}
+  const ctx=document.getElementById("chart");
+  chart=new Chart(ctx,{type:"bar",data:{labels,datasets:[
+    {label:"Sem IA",data:semIA,backgroundColor:"#555"},
+    {label:"Com EvolIA",data:comIA,backgroundColor:"#ff6a00"}]},
+    options:{responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{labels:{color:"#ccc"}}},
+      scales:{x:{ticks:{color:"#9a9a9a",font:{size:10}},grid:{color:"#222"}},
+              y:{ticks:{color:"#9a9a9a"},grid:{color:"#222"},title:{display:true,text:"min/semana",color:"#777"}}}}});
+}
+buildSliders();
+</script>
+</body>
+</html>
